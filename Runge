@@ -1,0 +1,60 @@
+#include <array>
+#include <functional>
+using namespace std;
+
+const int PD = 4; //Порядок системы дифф уравнений
+//TYPE
+using Vector = array<float, PD>; // Это типа тоже, что float[PD]
+using procRUNGE = function<Vector(float, Vector, Vector&)>;
+
+// PROCEDURE RUNGE
+void RUNGE(float x0, float L, int NP, Vector Y0, procRUNGE F, Vector &Y)
+{
+  //Var локальные переменные функции
+  Vector K1, K2, K3, K4, Y1;
+  float x, dx;
+  int j, k;
+
+  dx = L / NP;
+  x = x0;
+  Y = Y0;
+
+  for (k = 0; k <= NP - 1; ++k)
+  {
+    F(x, Y, K1);
+    for (j = 0; j < PD; ++j)
+    {
+      Y1[j] = Y[j] + K1[j] * dx / 2;
+    }
+
+    x = x + dx / 2;
+    F(x, Y1, K2);
+    for (j = 0; j < PD; ++j)
+    {
+      Y1[j] = Y[j] + K2[j] * dx / 2;
+    }
+
+    F(x, Y1, K3);
+    for (j = 0; j < PD; ++j)
+    {
+      Y1[j] = Y[j] + K3[j] * dx;
+    }
+
+    x = x + dx / 2;
+    F(x, Y1, K4);
+    for (j = 0; j < PD; ++j)
+    {
+      Y[j] = Y[j] + (K1[j] + 2 * K2[j] + 2 * K3[j] + K4[j]) * dx / 6;
+    }
+  }
+}
+
+void RightMember(float x, Vector Y, Vector &DY_DX)
+{
+  /*
+    DY_DX[0] = ;
+    DY_DX[1] = ;
+    DY_DX[2] = ;
+    DY_DX[3] = ;
+  */
+}
