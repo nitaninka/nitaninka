@@ -4,7 +4,7 @@ using namespace std;
 
 const int PD = 4; //Порядок системы дифф уравнений
 //TYPE
-using Vector = array<float, PD>; // Это типа тоже, что float[PD]
+using Vector = array<float, PD>; 
 using procRUNGE = function<Vector(float, Vector, Vector&)>;
 
 // PROCEDURE RUNGE
